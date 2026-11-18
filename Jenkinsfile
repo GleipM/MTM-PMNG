@@ -9,7 +9,7 @@ pipeline {
         stage('Construir imagenes') {
             steps {
                 sh 'docker build -t backend:v1.0 ./service'
-                sh 'docker build -t frontend:v1.0 ./client'
+                sh 'docker build -t frontend:v1.0 ./cliente'
             }
         }
 
