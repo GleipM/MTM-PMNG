@@ -1,4 +1,5 @@
-const API = 'http://32.200.110.38:8089';
+const API = 'http://52.3.229.13:8089';
+const resultado = document.getElementById('resultado');
 
 onload = () => {
   obtenerDatos();
@@ -9,25 +10,23 @@ async function obtenerDatos() {
     const res = await fetch(`${API}/people`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-    const nombres = data.data.map(persona => ({ name: persona.name }));    
-    fillTable(nombres)
+    const nombres = data.data.map(persona => ({ name: persona.name }));
+    fillTable(nombres);
   } catch (err) {
     resultado.textContent = "Error: " + err.message;
   }
 }
 
-async function fillTable(personas) {
-    const lista = document.getElementById('lista')
-    lista.innerHTML = '';
-    lista.innerHTML = '<tr><th>Nombre</th></tr>'
-    personas.forEach(element => {
-        const nuevaFila = document.createElement('tr')
-        const celda = document.createElement('td');
-        celda.textContent = element.name;
-
-        nuevaFila.appendChild(celda);
-        lista.appendChild(nuevaFila)
-    });
+function fillTable(personas) {
+  const lista = document.getElementById('lista');
+  lista.innerHTML = '<tr><th>Nombre</th></tr>';
+  personas.forEach(element => {
+    const nuevaFila = document.createElement('tr');
+    const celda = document.createElement('td');
+    celda.textContent = element.name;
+    nuevaFila.appendChild(celda);
+    lista.appendChild(nuevaFila);
+  });
 }
 
 document.getElementById("miForm").addEventListener("submit", async (e) => {
@@ -41,13 +40,10 @@ document.getElementById("miForm").addEventListener("submit", async (e) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(datos),
-      
     });
-    if(res.ok){
-        obtenerDatos();
-    }
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     e.target.reset();
+    obtenerDatos();
   } catch (err) {
     resultado.textContent = "Error: " + err.message;
   }
