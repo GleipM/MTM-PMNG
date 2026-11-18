@@ -29,6 +29,7 @@ pipeline {
                       --network pmng-net --network-alias pmng-mysql \
                       -p 3306:3306 \
                       --env-file "$ENV_FILE" \
+                      -e MYSQL_ROOT_PASSWORD=root \
                       -e MYSQL_DATABASE=people-dev \
                       -v pmng_data:/var/lib/mysql \
                       --restart unless-stopped \
@@ -55,7 +56,6 @@ pipeline {
                       --network pmng-net --network-alias pmng-back \
                       -p 8089:8080 \
                       --env-file "$ENV_FILE" \
-                      -e DB_HOST=pmng-mysql -e DB_PORT=3306 -e DB_NAME=people-dev \
                       --restart unless-stopped \
                       backend:v1.0
                 '''
